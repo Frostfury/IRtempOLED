@@ -5,7 +5,8 @@
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+#define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin
+float Ta=0,To=0;
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET); //Declaring the display name (display)
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
@@ -96,7 +97,10 @@ void loop() {
   
   display.setTextSize(2);
   display.setCursor(50,0);
-  display.println(mlx.readAmbientTempC(),1);
+  if(mlx.readAmbientTempC()<60 && mlx.readAmbientTempC()>0)
+  {Ta=mlx.readAmbientTempC();
+  }
+  display.println(Ta,1);
  
   display.setCursor(110,0);
   display.println("C");
@@ -108,7 +112,10 @@ void loop() {
   
   display.setTextSize(2);
   display.setCursor(50,17);
-  display.println(mlx.readObjectTempC(),1);
+   if(mlx.readObjectTempC()<320 && mlx.readObjectTempC()>-40)
+  {To=mlx.readObjectTempC();
+  }
+  display.println(To,1);
   
   display.setCursor(110,17);
   display.println("C");
